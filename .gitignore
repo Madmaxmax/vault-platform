@@ -1,0 +1,12 @@
+.env
+runtime/*
+!runtime/.gitkeep
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+.coverage
+*.snap
+*.log
+.idea/
+.vscode/

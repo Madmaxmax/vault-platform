@@ -1,0 +1,24 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r app/requirements-dev.txt
+      - run: PYTHONPATH=app python -m pytest -q app/tests
+      - run: python -m compileall -q app/src
+  compose-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose schema
+        env:
+          POSTGRES_PASSWORD: placeholder-for-validation
+          VAULT_DEV_ROOT_TOKEN_ID: placeholder-for-validation
+        run: docker compose -f compose.yaml config --quiet

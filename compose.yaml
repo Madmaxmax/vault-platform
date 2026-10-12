@@ -30,6 +30,7 @@ services:
     networks: [internal]
 
   bootstrap:
+    user: "0:0" # local demo: writes bootstrap credentials
     image: hashicorp/vault:1.18
     environment:
       VAULT_ADDR: http://vault:8200
@@ -46,6 +47,7 @@ services:
     networks: [internal]
 
   vault-agent:
+    user: "0:0" # local demo: reads bootstrap credentials; harden for production
     image: hashicorp/vault:1.18
     environment:
       VAULT_ADDR: http://vault:8200
@@ -85,4 +87,4 @@ volumes:
     driver_opts:
       type: tmpfs
       device: tmpfs
-      o: size=16m,mode=0770
+      o: size=16m,mode=0755

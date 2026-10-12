@@ -14,7 +14,7 @@ auto_auth {
 }
 template {
   destination = "/run/rendered/postgres.json"
-  perms = "0644"
+  perms = "0640"
   contents = <<EOT
 {{ with secret "database/creds/app-readonly" }}{"username":{{ .Data.username | toJSON }},"password":{{ .Data.password | toJSON }},"lease_id":{{ .LeaseID | toJSON }}} {{ end }}
 EOT

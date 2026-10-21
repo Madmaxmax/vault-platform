@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import pytest
+pytest.importorskip("psycopg")
 from fastapi.testclient import TestClient
 
 from src.main import app, read_credentials

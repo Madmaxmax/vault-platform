@@ -4,30 +4,14 @@ This example intentionally never returns passwords or lease identifiers over HTT
 """
 from __future__ import annotations
 
-import json
 import os
-from pathlib import Path
 
 import psycopg
 from fastapi import FastAPI, HTTPException
 
+from .credentials import read_credentials
+
 app = FastAPI(title="Vault integration demo", docs_url="/docs")
-
-
-def credentials_path() -> Path:
-    return Path(os.getenv("CREDENTIALS_FILE", "/run/rendered/postgres.json"))
-
-
-def read_credentials() -> tuple[str, str]:
-    """Re-read on every connection to support credential rotation."""
-    data = json.loads(credentials_path().read_text(encoding="utf-8"))
-    username = data.get("username")
-    password = data.get("password")
-    if not isinstance(username, str) or not username:
-        raise ValueError("Vault rendered file does not contain a valid username")
-    if not isinstance(password, str) or not password:
-        raise ValueError("Vault rendered file does not contain a valid password")
-    return username, password
 
 
 @app.get("/health")
@@ -50,6 +34,6 @@ def check_database() -> dict[str, str]:
             with conn.cursor() as cursor:
                 cursor.execute("SELECT current_user")
                 current_user = cursor.fetchone()[0]
-    except (OSError, ValueError, json.JSONDecodeError, psycopg.Error):
+    except (OSError, ValueError, psycopg.Error):
         raise HTTPException(status_code=503, detail="Database credentials or connection unavailable") from None
     return {"status": "connected", "database_user": current_user}

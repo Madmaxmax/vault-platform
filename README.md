@@ -49,4 +49,4 @@ PYTHONPATH=app pytest -q app/tests
 
 ## Открытие проекта в IDE
 
-Откройте корневую папку `vault-platform-repo` (в ней находится `compose.yaml`). Для работы с Python выберите интерпретатор Python 3.12 и установите зависимости из `app/requirements-dev.txt`. Для запуска стенда потребуется Docker Desktop с Linux-контейнерами. Порядок проверки приведён в `docs/TESTING.md`.
+Откройте корневую папку `vault-platform-repo` (в ней находится `compose.yaml`). Для работы с Python выберите интерпретатор Python 3.12 и установите зависимости из `app/requirements-dev.txt`. Для запуска стенда потребуется Docker Desktop с Linux-контейнерами. Порядок проверки приведён в `docs/TESTING.md`, результаты текущей проверки — в `docs/TEST_RESULTS.md`.
